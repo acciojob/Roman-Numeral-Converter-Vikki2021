@@ -11,8 +11,28 @@ function convertToRoman(num) {
 
   //your code here
 	let result = "";
+	const symbols = Object.values(obj);
 
-	for (let [symbol, value] of romanMap) {
+	// Manually add subtractive cases
+	const subtractive = {
+		900: "CM",
+		400: "CD",
+		90: "XC",
+		40: "XL",
+		9: "IX",
+		4: "IV"
+	};
+
+	// Handle subtractive cases first
+	for (let value in subtractive) {
+		while (num >= value) {
+			result += subtractive[value];
+			num -= value;
+		}
+	}
+
+	// Then handle remaining values
+	for (let [symbol, value] of symbols) {
 		while (num >= value) {
 			result += symbol;
 			num -= value;
@@ -20,7 +40,6 @@ function convertToRoman(num) {
 	}
 
 	return result;
-}
 
 }
 // You can test your code by running the above function and printing it to console by pressing the run button at the top. To run it with input 36, uncomment the following line
