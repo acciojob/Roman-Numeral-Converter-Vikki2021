@@ -10,35 +10,30 @@ function convertToRoman(num) {
     };
 
   //your code here
-	let result = "";
-	const symbols = Object.values(obj);
-
-	// Manually add subtractive cases
-	const subtractive = {
-		900: "CM",
-		400: "CD",
-		90: "XC",
-		40: "XL",
-		9: "IX",
-		4: "IV"
+	const special = {
+		900: 'CM', 400: 'CD',
+		90: 'XC', 40: 'XL',
+		9: 'IX', 4: 'IV'
 	};
 
-	// Handle subtractive cases first
-	for (let value in subtractive) {
-		while (num >= value) {
-			result += subtractive[value];
-			num -= value;
+	let result = '';
+
+	for (let val of [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1]) {
+		if (special[val]) {
+			while (num >= val) {
+				result += special[val];
+				num -= val;
+			}
+		} else {
+			for (let key in obj) {
+				let [sym, value] = obj[key];
+				while (val === value && num >= value) {
+					result += sym;
+					num -= value;
+				}
+			}
 		}
 	}
-
-	// Then handle remaining values
-	for (let [symbol, value] of symbols) {
-		while (num >= value) {
-			result += symbol;
-			num -= value;
-		}
-	}
-
 	return result;
 
 }
